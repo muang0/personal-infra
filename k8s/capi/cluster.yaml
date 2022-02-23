@@ -1,7 +1,7 @@
 apiVersion: cluster.x-k8s.io/v1beta1
 kind: Cluster
 metadata:
-  name: workload-cluster
+  name: personal-cluster
   namespace: default
 spec:
   clusterNetwork:
@@ -11,16 +11,16 @@ spec:
   controlPlaneRef:
     apiVersion: controlplane.cluster.x-k8s.io/v1beta1
     kind: KubeadmControlPlane
-    name: workload-cluster-control-plane
+    name: personal-cluster-control-plane
   infrastructureRef:
     apiVersion: infrastructure.cluster.x-k8s.io/v1beta1
     kind: AWSCluster
-    name: workload-cluster
+    name: personal-cluster
 ---
 apiVersion: infrastructure.cluster.x-k8s.io/v1beta1
 kind: AWSCluster
 metadata:
-  name: workload-cluster
+  name: personal-cluster
   namespace: default
 spec:
   region: us-east-1
@@ -29,7 +29,7 @@ spec:
 apiVersion: controlplane.cluster.x-k8s.io/v1beta1
 kind: KubeadmControlPlane
 metadata:
-  name: workload-cluster-control-plane
+  name: personal-cluster-control-plane
   namespace: default
 spec:
   kubeadmConfigSpec:
@@ -54,14 +54,14 @@ spec:
     infrastructureRef:
       apiVersion: infrastructure.cluster.x-k8s.io/v1beta1
       kind: AWSMachineTemplate
-      name: workload-cluster-control-plane
-  replicas: 2
+      name: personal-cluster-control-plane
+  replicas: 3
   version: v1.23.3
 ---
 apiVersion: infrastructure.cluster.x-k8s.io/v1beta1
 kind: AWSMachineTemplate
 metadata:
-  name: workload-cluster-control-plane
+  name: personal-cluster-control-plane
   namespace: default
 spec:
   template:
@@ -73,11 +73,11 @@ spec:
 apiVersion: cluster.x-k8s.io/v1beta1
 kind: MachineDeployment
 metadata:
-  name: workload-cluster-md-0
+  name: personal-cluster-md-0
   namespace: default
 spec:
-  clusterName: workload-cluster
-  replicas: 2
+  clusterName: personal-cluster
+  replicas: 1
   selector:
     matchLabels: null
   template:
@@ -86,18 +86,18 @@ spec:
         configRef:
           apiVersion: bootstrap.cluster.x-k8s.io/v1beta1
           kind: KubeadmConfigTemplate
-          name: workload-cluster-md-0
-      clusterName: workload-cluster
+          name: personal-cluster-md-0
+      clusterName: personal-cluster
       infrastructureRef:
         apiVersion: infrastructure.cluster.x-k8s.io/v1beta1
         kind: AWSMachineTemplate
-        name: workload-cluster-md-0
+        name: personal-cluster-md-0
       version: v1.23.3
 ---
 apiVersion: infrastructure.cluster.x-k8s.io/v1beta1
 kind: AWSMachineTemplate
 metadata:
-  name: workload-cluster-md-0
+  name: personal-cluster-md-0
   namespace: default
 spec:
   template:
@@ -109,7 +109,7 @@ spec:
 apiVersion: bootstrap.cluster.x-k8s.io/v1beta1
 kind: KubeadmConfigTemplate
 metadata:
-  name: workload-cluster-md-0
+  name: personal-cluster-md-0
   namespace: default
 spec:
   template:
