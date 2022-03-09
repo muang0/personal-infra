@@ -23,7 +23,6 @@ module "s3-static-website" {
     aws.acm_provider = aws.main
   }
   name_prefix                            = "personal-static-site"
-  cloudfront_default_root_object         = "resume.html"
   create_route53_hosted_zone             = false
   log_bucket_versioning_status           = "Suspended"
   www_website_versioning_enabled         = false
